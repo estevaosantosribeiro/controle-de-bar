@@ -47,5 +47,59 @@ public class MesaController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    [HttpGet("editar/{id:guid}")]
+    public ActionResult Editar(Guid id)
+    {
+        var registroSelecionado = repositorioMesa.SelecionarRegistroPorId(id);
 
+        var editarVM = new EditarMesaViewModel(
+            id,
+            registroSelecionado.Numero,
+            registroSelecionado.Capacidade
+        );
+
+        return View(editarVM);
+    }
+
+    [HttpPost("editar/{id:guid}")]
+    public ActionResult Editar(Guid id, EditarMesaViewModel editarVM)
+    {
+        var entidadeEditada = editarVM.ParaEntidade();
+
+        repositorioMesa.EditarRegistro(id, entidadeEditada);
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet("excluir/{id:guid}")]
+    public ActionResult Excluir(Guid id)
+    {
+        var registroSelecionado = repositorioMesa.SelecionarRegistroPorId(id);
+
+        var excluirVM = new ExcluirMesaViewModel(registroSelecionado.Id, registroSelecionado.Numero);
+
+        return View(excluirVM);
+    }
+
+    [HttpPost("excluir/{id:guid}")]
+    public ActionResult ExcluirConfirmado(Guid id)
+    {
+        repositorioMesa.ExcluirRegistro(id);
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet("detalhes/{id:guid}")]
+    public ActionResult Detalhes(Guid id)
+    {
+        var registroSelecionado = repositorioMesa.SelecionarRegistroPorId(id);
+
+        var detalhesVM = new DetalhesMesaViewModel(
+            id,
+            registroSelecionado.Numero,
+            registroSelecionado.Capacidade
+        );
+
+        return View(detalhesVM);
+    }
 }
