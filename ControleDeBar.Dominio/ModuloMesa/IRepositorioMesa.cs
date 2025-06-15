@@ -1,5 +1,5 @@
-﻿namespace ControleDeBar.Dominio.ModuloMesa;
+﻿using ControleDeBar.Dominio.Compartilhado;
 
-public interface IRepositorioMesa
-{
-}
+namespace ControleDeBar.Dominio.ModuloMesa;
+
+public interface IRepositorioMesa : IRepositorio<Mesa>;
