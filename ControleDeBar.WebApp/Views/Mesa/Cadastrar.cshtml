@@ -1,0 +1,37 @@
+﻿@using ControleDeBar.WebApp.Models
+@model CadastrarMesaViewModel
+
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Cadastro de Mesa";
+}
+
+<hr />
+<div class="row justify-content-center my-5">
+    <div class="col-md-8">
+        <div class="card rounded-4 border-0">
+            <div class="card-body p-md-5">
+                <form action="/mesas/cadastrar" method="post">
+                    <h3>Formulário de Cadastro</h3>
+
+                    <div class="form-group d-grid gap-2 mt-3">
+                        <label for="Numero" class="control-label fs-5">Número:</label>
+                        <input type="number" for="Numero" name="Numero" class="form-control" value="@Model.Numero" />
+                        <span validation-for="Numero" class="text-danger"></span>
+
+                    </div>
+                    <div class="form-group d-grid gap-2 mt-3">
+                        <label for="Capacidade" class="control-label fs-5">Capacidade:</label>
+                        <input type="number" for="Capacidade" name="Capacidade" class="form-control" value="@Model.Capacidade" />
+                        <span validation-for="Capacidade" class="text-danger"></span>
+
+                    </div>
+                    <div class="form-group d-flex align-items-center justify-content-end gap-3 mt-5">
+                        <a href="/mesas">Voltar para a listagem</a>
+                        <button type="submit" class="btn btn-primary rounded-3 px-5">Confirmar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

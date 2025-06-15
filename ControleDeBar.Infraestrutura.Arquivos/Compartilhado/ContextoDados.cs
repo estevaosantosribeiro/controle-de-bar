@@ -1,5 +1,4 @@
 ﻿using ControleDeBar.Dominio.ModuloMesa;
-using static System.Net.Mime.MediaTypeNames;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 

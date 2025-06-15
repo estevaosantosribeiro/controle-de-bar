@@ -1,6 +1,7 @@
 ﻿using ControleDeBar.Dominio.ModuloMesa;
 using ControleDeBar.Infraestrutura.Arquivos.Compartilhado;
 using ControleDeBar.Infraestrutura.Arquivos.ModuloMesa;
+using ControleDeBar.WebApp.Extensions;
 using ControleDeBar.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,4 +28,24 @@ public class MesaController : Controller
 
         return View(visualizarVM);
     }
+
+    [HttpGet("cadastrar")]
+    public IActionResult Cadastrar()
+    {
+        var cadastrarVM = new CadastrarMesaViewModel();
+
+        return View(cadastrarVM);
+    }
+
+    [HttpPost("cadastrar")]
+    public ActionResult Cadastrar(CadastrarMesaViewModel cadastrarVM)
+    {
+        var entidade = cadastrarVM.ParaEntidade();
+
+        repositorioMesa.CadastrarRegistro(entidade);
+
+        return RedirectToAction(nameof(Index));
+    }
+
+
 }

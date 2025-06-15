@@ -19,6 +19,8 @@ public abstract class RepositorioBaseEmArquivo<T> where T : EntidadeBase<T>
     public void CadastrarRegistro(T registro)
     {
         registros.Add(registro);
+
+        contexto.Salvar();
     }
 
     public bool EditarRegistro(Guid idRegistro, T registroEditado)
