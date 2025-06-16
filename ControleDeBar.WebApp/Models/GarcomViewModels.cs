@@ -1,11 +1,19 @@
-﻿using ControleDeBar.Dominio.ModuloGarcom;
+﻿using System.ComponentModel.DataAnnotations;
+using ControleDeBar.Dominio.ModuloGarcom;
 using ControleDeBar.WebApp.Extensions;
 
 namespace ControleDeBar.WebApp.Models;
 
 public class FormularioGarcomViewModel
 {
+    [Required(ErrorMessage = "O campo \"Nome\" é obrigatório.")]
+    [MinLength(3, ErrorMessage = "O campo \"Nome\" precisa conter ao menos 3 caracteres.")]
+    [MaxLength(100, ErrorMessage = "O campo \"Nome\" precisa conter no máximo 100 caracteres.")]
     public string Nome { get; set; }
+
+    [Required(ErrorMessage = "O campo \"CPF\" é obrigatório.")]
+    [RegularExpression(@"^\d{3}\.\d{3}\.\d{3}-\d{2}$",
+    ErrorMessage = "O campo \"CPF\" precisa seguir o formato: 000.000.000-00.")]
     public string Cpf { get; set; }
 }
 

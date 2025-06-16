@@ -1,16 +1,17 @@
-﻿using ControleDeBar.Dominio.ModuloMesa;
+﻿using System.ComponentModel.DataAnnotations;
+using ControleDeBar.Dominio.ModuloMesa;
 using ControleDeBar.WebApp.Extensions;
 
 namespace ControleDeBar.WebApp.Models;
 
 public abstract class FormularioMesaViewModel
 {
-    //[Required(ErrorMessage = "O campo \"Nome\" é obrigatório.")]
-    //[Range(1, 100, ErrorMessage = "O campo \"Nome\" precisa conter um valor entre 1 e 100.")]
+    [Required(ErrorMessage = "O campo \"Nome\" é obrigatório.")]
+    [Range(1, 100, ErrorMessage = "O campo \"Nome\" precisa conter um valor entre 1 e 100.")]
     public int Numero { get; set; }
 
-    //[Required(ErrorMessage = "O campo \"Capacidade\" é obrigatório.")]
-    //[Range(1, 100, ErrorMessage = "O campo \"Capacidade\" precisa conter um valor entre 1 e 100.")]
+    [Required(ErrorMessage = "O campo \"Capacidade\" é obrigatório.")]
+    [Range(1, 100, ErrorMessage = "O campo \"Capacidade\" precisa conter um valor entre 1 e 100.")]
     public int Capacidade { get; set; }
 }
 
