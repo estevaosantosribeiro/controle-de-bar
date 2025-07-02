@@ -13,10 +13,10 @@ public class MesaController : Controller
     private readonly ContextoDados contextoDados;
     private readonly IRepositorioMesa repositorioMesa;
 
-    public MesaController()
+    public MesaController(ContextoDados contextoDados, IRepositorioMesa repositorioMesa)
     {
-        contextoDados = new ContextoDados(true);
-        repositorioMesa = new RepositorioMesaEmArquivo(contextoDados);
+        this.contextoDados = contextoDados;
+        this.repositorioMesa = repositorioMesa;
     }
 
     [HttpGet]

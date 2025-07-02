@@ -22,13 +22,19 @@ public class ContaController : Controller
     private readonly IRepositorioGarcom repositorioGarcom;
     private readonly IRepositorioProduto repositorioProduto;
 
-    public ContaController()
+    public ContaController(
+        ContextoDados contextoDados, 
+        IRepositorioConta repositorioConta, 
+        IRepositorioMesa repositorioMesa, 
+        IRepositorioGarcom repositorioGarcom, 
+        IRepositorioProduto repositorioProduto
+    )
     {
-        contextoDados = new ContextoDados(true);
-        repositorioConta = new RepositorioContaEmArquivo(contextoDados);
-        repositorioMesa = new RepositorioMesaEmArquivo(contextoDados);
-        repositorioGarcom = new RepositorioGarcomEmArquivo(contextoDados);
-        repositorioProduto = new RepositorioProdutoEmArquivo(contextoDados);
+        this.contextoDados = contextoDados;
+        this.repositorioConta = repositorioConta;
+        this.repositorioMesa = repositorioMesa;
+        this.repositorioGarcom = repositorioGarcom;
+        this.repositorioProduto = repositorioProduto;
     }
 
     [HttpGet]
