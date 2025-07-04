@@ -2,6 +2,7 @@
 using ControleDeBar.Dominio.ModuloProduto;
 using ControleDeBar.Infraestrutura.Arquivos.Compartilhado;
 using ControleDeBar.Infraestrutura.Arquivos.ModuloProduto;
+using ControleDeBar.WebApp.ActionFilters;
 using ControleDeBar.WebApp.Extensions;
 using ControleDeBar.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +41,7 @@ public class ProdutoController : Controller
 
     [HttpPost("cadastrar")]
     [ValidateAntiForgeryToken]
+    [ValidarModelo]
     public IActionResult Cadastrar(CadastrarProdutoViewModel cadastrarVM)
     {
         var registros = repositorioProduto.SelecionarRegistros();
@@ -49,12 +51,9 @@ public class ProdutoController : Controller
             if (item.Nome.Equals(cadastrarVM.Nome))
             {
                 ModelState.AddModelError("CadastroUnico", "Já existe um produto registrado com este nome.");
-                break;
+                return View(cadastrarVM);
             }
         }
-
-        if (!ModelState.IsValid)
-            return View(cadastrarVM);
 
         var entidade = cadastrarVM.ParaEntidade();
 
@@ -79,6 +78,7 @@ public class ProdutoController : Controller
 
     [HttpPost("editar/{id:guid}")]
     [ValidateAntiForgeryToken]
+    [ValidarModelo]
     public IActionResult Editar(Guid id, EditarProdutoViewModel editarVM)
     {
         var registros = repositorioProduto.SelecionarRegistros();
@@ -88,12 +88,9 @@ public class ProdutoController : Controller
             if (!item.Id.Equals(id) && item.Nome.Equals(editarVM.Nome))
             {
                 ModelState.AddModelError("CadastroUnico", "Já existe um produto registrado com este nome.");
-                break;
+                return View(editarVM);
             }
         }
-
-        if (!ModelState.IsValid)
-            return View(editarVM);
 
         var entidadeEditada = editarVM.ParaEntidade();
 

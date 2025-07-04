@@ -3,10 +3,7 @@ using ControleDeBar.Dominio.ModuloGarcom;
 using ControleDeBar.Dominio.ModuloMesa;
 using ControleDeBar.Dominio.ModuloProduto;
 using ControleDeBar.Infraestrutura.Arquivos.Compartilhado;
-using ControleDeBar.Infraestrutura.Arquivos.ModuloConta;
-using ControleDeBar.Infraestrutura.Arquivos.ModuloGarcom;
-using ControleDeBar.Infraestrutura.Arquivos.ModuloMesa;
-using ControleDeBar.Infraestrutura.Arquivos.ModuloProduto;
+using ControleDeBar.WebApp.ActionFilters;
 using ControleDeBar.WebApp.Extensions;
 using ControleDeBar.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -67,6 +64,7 @@ public class ContaController : Controller
 
     [HttpPost("abrir")]
     [ValidateAntiForgeryToken]
+    [ValidarModelo]
     public IActionResult Abrir(AbrirContaViewModel abrirVM)
     {
         var registros = repositorioConta.SelecionarContas();
@@ -76,12 +74,9 @@ public class ContaController : Controller
             if (conta.Titular.Equals(abrirVM.Titular) && conta.EstaAberta)
             {
                 ModelState.AddModelError("CadastroUnico", "Já existe uma conta aberta para este titular.");
-                break;
+                return View(abrirVM);
             }
         }
-
-        if (!ModelState.IsValid)
-            return View(abrirVM);
 
         var mesas = repositorioMesa.SelecionarRegistros();
         var garcons = repositorioGarcom.SelecionarRegistros();

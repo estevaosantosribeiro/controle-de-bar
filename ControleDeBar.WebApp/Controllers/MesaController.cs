@@ -1,6 +1,7 @@
 ﻿using ControleDeBar.Dominio.ModuloMesa;
 using ControleDeBar.Infraestrutura.Arquivos.Compartilhado;
 using ControleDeBar.Infraestrutura.Arquivos.ModuloMesa;
+using ControleDeBar.WebApp.ActionFilters;
 using ControleDeBar.WebApp.Extensions;
 using ControleDeBar.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +40,7 @@ public class MesaController : Controller
 
     [HttpPost("cadastrar")]
     [ValidateAntiForgeryToken]
+    [ValidarModelo]
     public ActionResult Cadastrar(CadastrarMesaViewModel cadastrarVM)
     {
         var registros = repositorioMesa.SelecionarRegistros();
@@ -48,12 +50,9 @@ public class MesaController : Controller
             if (item.Numero.Equals(cadastrarVM.Numero))
             {
                 ModelState.AddModelError("CadastroUnico", "Já existe uma mesa registrada com este número.");
-                break;
+                return View(cadastrarVM);
             }
         }
-
-        if (!ModelState.IsValid)
-            return View(cadastrarVM);
 
         var entidade = cadastrarVM.ParaEntidade();
 
@@ -78,6 +77,7 @@ public class MesaController : Controller
 
     [HttpPost("editar/{id:guid}")]
     [ValidateAntiForgeryToken]
+    [ValidarModelo]
     public ActionResult Editar(Guid id, EditarMesaViewModel editarVM)
     {
         var registros = repositorioMesa.SelecionarRegistros();
@@ -87,12 +87,9 @@ public class MesaController : Controller
             if (!item.Id.Equals(id) && item.Numero.Equals(editarVM.Numero))
             {
                 ModelState.AddModelError("CadastroUnico", "Já existe uma mesa registrada com este número.");
-                break;
+                return View(editarVM);
             }
         }
-
-        if (!ModelState.IsValid)
-            return View(editarVM);
 
         var entidadeEditada = editarVM.ParaEntidade();
 

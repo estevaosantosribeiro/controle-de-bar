@@ -1,6 +1,7 @@
 ﻿using ControleDeBar.Dominio.ModuloGarcom;
 using ControleDeBar.Infraestrutura.Arquivos.Compartilhado;
 using ControleDeBar.Infraestrutura.Arquivos.ModuloGarcom;
+using ControleDeBar.WebApp.ActionFilters;
 using ControleDeBar.WebApp.Extensions;
 using ControleDeBar.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +39,7 @@ public class GarcomController : Controller
 
     [HttpPost("cadastrar")]
     [ValidateAntiForgeryToken]
+    [ValidarModelo]
     public ActionResult Cadastrar(CadastrarGarcomViewModel cadastrarVM)
     {
         var registros = repositorioGarcom.SelecionarRegistros();
@@ -53,12 +55,9 @@ public class GarcomController : Controller
             if (item.Cpf.Equals(cadastrarVM.Cpf))
             {
                 ModelState.AddModelError("CadastroUnico", "Já existe um garçom registrado com este CPF.");
-                break;
+                return View(cadastrarVM);
             }
         }
-
-        if (!ModelState.IsValid)
-            return View(cadastrarVM);
         
         var entidade = cadastrarVM.ParaEntidade();
 
@@ -83,6 +82,7 @@ public class GarcomController : Controller
 
     [HttpPost("editar/{id:guid}")]
     [ValidateAntiForgeryToken]
+    [ValidarModelo]
     public ActionResult Editar(Guid id, EditarGarcomViewModel editarVM)
     {
         var registros = repositorioGarcom.SelecionarRegistros();
@@ -92,18 +92,15 @@ public class GarcomController : Controller
             if (!item.Id.Equals(id) && item.Nome.Equals(editarVM.Nome))
             {
                 ModelState.AddModelError("CadastroUnico", "Já existe um garçom registrado com este nome.");
-                break;
+                return View(editarVM);
             }
 
             if (!item.Id.Equals(id) && item.Cpf.Equals(editarVM.Cpf))
             {
                 ModelState.AddModelError("CadastroUnico", "Já existe um garçom registrado com este CPF.");
-                break;
+                return View(editarVM);
             }
         }
-
-        if (!ModelState.IsValid)
-            return View(editarVM);
 
         var entidadeEditada = editarVM.ParaEntidade();
 
