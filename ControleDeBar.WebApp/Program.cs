@@ -8,6 +8,7 @@ using ControleDeBar.Infraestrutura.Arquivos.ModuloGarcom;
 using ControleDeBar.Infraestrutura.Arquivos.ModuloMesa;
 using ControleDeBar.Infraestrutura.Arquivos.ModuloProduto;
 using ControleDeBar.WebApp.ActionFilters;
+using ControleDeBar.WebApp.DependencyInjection;
 using Serilog;
 using Serilog.Events;
 
@@ -30,18 +31,7 @@ namespace ControleDeBar.WebApp
             builder.Services.AddScoped<IRepositorioGarcom, RepositorioGarcomEmArquivo>();
             builder.Services.AddScoped<IRepositorioConta, RepositorioContaEmArquivo>();
 
-            var caminhoAppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-            var caminhoArquivoLogs = Path.Combine(caminhoAppData, "ControleDeBar", "error.log");
-
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Information()
-                .WriteTo.File(caminhoArquivoLogs, LogEventLevel.Error)
-                .CreateLogger();
-
-            builder.Logging.ClearProviders();
-
-            builder.Services.AddSerilog();
+            builder.Services.AddSerilogConfig(builder.Logging);
 
             var app = builder.Build();
 
