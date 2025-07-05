@@ -25,7 +25,7 @@ public abstract class RepositorioBaseEmArquivo<T> where T : EntidadeBase<T>
 
     public bool EditarRegistro(Guid idRegistro, T registroEditado)
     {
-        var registroSelecionado = SelecionarRegistroPorId(idRegistro);
+        T? registroSelecionado = SelecionarRegistroPorId(idRegistro);
 
         if (registroSelecionado is null)
             return false;
@@ -39,7 +39,7 @@ public abstract class RepositorioBaseEmArquivo<T> where T : EntidadeBase<T>
 
     public bool ExcluirRegistro(Guid idRegistro)
     {
-        var registroSelecionado = SelecionarRegistroPorId(idRegistro);
+        T? registroSelecionado = SelecionarRegistroPorId(idRegistro);
 
         if (registroSelecionado != null)
         {

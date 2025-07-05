@@ -7,6 +7,9 @@ using ControleDeBar.Infraestrutura.Arquivos.ModuloConta;
 using ControleDeBar.Infraestrutura.Arquivos.ModuloGarcom;
 using ControleDeBar.Infraestrutura.Arquivos.ModuloMesa;
 using ControleDeBar.Infraestrutura.Arquivos.ModuloProduto;
+using ControleDeBar.WebApp.ActionFilters;
+using Serilog;
+using Serilog.Events;
 
 namespace ControleDeBar.WebApp
 {
@@ -16,7 +19,10 @@ namespace ControleDeBar.WebApp
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<ValidarModeloAttribute>();
+            });
 
             builder.Services.AddScoped<ContextoDados>((_) => new ContextoDados(true));
             builder.Services.AddScoped<IRepositorioMesa, RepositorioMesaEmArquivo>();
@@ -24,20 +30,28 @@ namespace ControleDeBar.WebApp
             builder.Services.AddScoped<IRepositorioGarcom, RepositorioGarcomEmArquivo>();
             builder.Services.AddScoped<IRepositorioConta, RepositorioContaEmArquivo>();
 
+            var caminhoAppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+            var caminhoArquivoLogs = Path.Combine(caminhoAppData, "ControleDeBar", "error.log");
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.File(caminhoArquivoLogs, LogEventLevel.Error)
+                .CreateLogger();
+
             var app = builder.Build();
 
             if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
-            }
+                app.UseExceptionHandler("/erro");
+            else
+                app.UseDeveloperExceptionPage();
 
             app.UseAntiforgery();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
             app.UseRouting();
             app.MapDefaultControllerRoute();
-            app.UseAuthorization();
 
             app.Run();
         }
