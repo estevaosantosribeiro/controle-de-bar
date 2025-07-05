@@ -39,6 +39,10 @@ namespace ControleDeBar.WebApp
                 .WriteTo.File(caminhoArquivoLogs, LogEventLevel.Error)
                 .CreateLogger();
 
+            builder.Logging.ClearProviders();
+
+            builder.Services.AddSerilog();
+
             var app = builder.Build();
 
             if (!app.Environment.IsDevelopment())
