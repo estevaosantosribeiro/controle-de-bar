@@ -3,7 +3,7 @@ using ControleDeBar.Dominio.ModuloMesa;
 using Microsoft.Data.SqlClient;
 using System.Xml;
 
-namespace ControleDeBar.Infraestrutura.SqlServer;
+namespace ControleDeBar.Infraestrutura.SqlServer.ModuloMesa;
 
 public class RepositorioMesaEmSql : IRepositorioMesa
 {
@@ -107,6 +107,8 @@ public class RepositorioMesaEmSql : IRepositorioMesa
         if (leitor.Read())
             mesa = ConverterParaMesa(leitor);
 
+        conexaoComBanco.Close();
+
         return mesa;
     }
 
@@ -130,6 +132,8 @@ public class RepositorioMesaEmSql : IRepositorioMesa
             
             mesas.Add(mesa);
         }
+
+        conexaoComBanco.Close();
 
         return mesas;
     }

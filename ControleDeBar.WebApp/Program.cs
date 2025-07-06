@@ -7,7 +7,9 @@ using ControleDeBar.Infraestrutura.Arquivos.ModuloConta;
 using ControleDeBar.Infraestrutura.Arquivos.ModuloGarcom;
 using ControleDeBar.Infraestrutura.Arquivos.ModuloMesa;
 using ControleDeBar.Infraestrutura.Arquivos.ModuloProduto;
-using ControleDeBar.Infraestrutura.SqlServer;
+using ControleDeBar.Infraestrutura.SqlServer.ModuloGarcom;
+using ControleDeBar.Infraestrutura.SqlServer.ModuloMesa;
+using ControleDeBar.Infraestrutura.SqlServer.ModuloProduto;
 using ControleDeBar.WebApp.ActionFilters;
 using ControleDeBar.WebApp.DependencyInjection;
 
@@ -27,8 +29,8 @@ namespace ControleDeBar.WebApp
 
             builder.Services.AddScoped<ContextoDados>((_) => new ContextoDados(true));
             builder.Services.AddScoped<IRepositorioMesa, RepositorioMesaEmSql>();
-            builder.Services.AddScoped<IRepositorioProduto, RepositorioProdutoEmArquivo>();
-            builder.Services.AddScoped<IRepositorioGarcom, RepositorioGarcomEmArquivo>();
+            builder.Services.AddScoped<IRepositorioProduto, RepositorioProdutoEmSql>();
+            builder.Services.AddScoped<IRepositorioGarcom, RepositorioGarcomEmSql>();
             builder.Services.AddScoped<IRepositorioConta, RepositorioContaEmArquivo>();
 
             builder.Services.AddSerilogConfig(builder.Logging);
