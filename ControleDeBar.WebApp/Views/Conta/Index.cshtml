@@ -37,29 +37,39 @@
 <hr />
 
 <div class="d-flex flex-wrap gap-2">
-    @foreach (var item in Model.Registros)
+    @if (Model?.Registros == null || !Model.Registros.Any())
     {
-        <div class="col-12 col-md-3 coluna-card">
-            <div class="card border-0" style="height: 180px;">
-                <div class="card-body">
-                    <h5 class="card-title">Titular: @item.Titular</h5>
-                    <p class="card-text mb-1"><span class="fw-semibold">Mesa:</span> @item.Mesa</p>
-                    <p class="card-text"><span class="fw-semibold">Garçom:</span> @item.Garcom</p>
+        <div class="alert alert-info w-100" role="alert">
+            <p>Nenhum registro foi encontrado</p>
+            <p>Você pode abrir uma conta clicando no botão <strong>Abrir Conta</strong>.</p>
+        </div>
+    }
+    else if (Model.Registros.Count > 0)
+    {
+        @foreach (var item in Model.Registros)
+        {
+            <div class="col-12 col-md-3 coluna-card">
+                <div class="card border-0" style="height: 180px;">
+                    <div class="card-body">
+                        <h5 class="card-title">Titular: @item.Titular</h5>
+                        <p class="card-text mb-1"><span class="fw-semibold">Mesa:</span> @item.Mesa</p>
+                        <p class="card-text"><span class="fw-semibold">Garçom:</span> @item.Garcom</p>
 
-                    @if (item.EstaAberta)
-                    {
-                        <span class="d-flex gap-1 justify-content-end mt-4">
-                            <a title="Gerenciar pedidos" asp-action="GerenciarPedidos" asp-route-id="@item.Id" class="btn btn-primary rounded-circle opcao-card">
-                                <i class="bi bi-cart"></i>
-                            </a>
-                            <a title="Fechar conta" asp-action="Fechar" asp-route-id="@item.Id" class="btn btn-success rounded-circle opcao-card">
-                                <i class="bi bi-cash-coin"></i>
-                            </a>
-                        </span>
-                    }
+                        @if (item.EstaAberta)
+                        {
+                            <span class="d-flex gap-1 justify-content-end mt-4">
+                                <a title="Gerenciar pedidos" asp-action="GerenciarPedidos" asp-route-id="@item.Id" class="btn btn-primary rounded-circle opcao-card">
+                                    <i class="bi bi-cart"></i>
+                                </a>
+                                <a title="Fechar conta" asp-action="Fechar" asp-route-id="@item.Id" class="btn btn-success rounded-circle opcao-card">
+                                    <i class="bi bi-cash-coin"></i>
+                                </a>
+                            </span>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
+        }
     }
 </div>
 

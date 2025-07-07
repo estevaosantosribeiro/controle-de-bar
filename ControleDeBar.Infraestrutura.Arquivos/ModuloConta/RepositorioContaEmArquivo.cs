@@ -70,7 +70,7 @@ public class RepositorioContaEmArquivo : IRepositorioConta
 
         foreach (var item in registros)
         {
-            if (item.Fechamento.Date == data.Date)
+            if (item.Fechamento?.Date == data.Date)
                 contasDoPeriodo.Add(item);
         }
 

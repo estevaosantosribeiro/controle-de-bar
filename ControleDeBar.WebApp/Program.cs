@@ -7,6 +7,7 @@ using ControleDeBar.Infraestrutura.Arquivos.ModuloConta;
 using ControleDeBar.Infraestrutura.Arquivos.ModuloGarcom;
 using ControleDeBar.Infraestrutura.Arquivos.ModuloMesa;
 using ControleDeBar.Infraestrutura.Arquivos.ModuloProduto;
+using ControleDeBar.Infraestrutura.SqlServer.ModuloConta;
 using ControleDeBar.Infraestrutura.SqlServer.ModuloGarcom;
 using ControleDeBar.Infraestrutura.SqlServer.ModuloMesa;
 using ControleDeBar.Infraestrutura.SqlServer.ModuloProduto;
@@ -23,7 +24,6 @@ namespace ControleDeBar.WebApp
 
             builder.Services.AddControllersWithViews(options =>
             {
-                options.Filters.Add<ValidarModeloAttribute>();
                 options.Filters.Add<LogarAcaoAttribute>();
             });
 
@@ -31,7 +31,7 @@ namespace ControleDeBar.WebApp
             builder.Services.AddScoped<IRepositorioMesa, RepositorioMesaEmSql>();
             builder.Services.AddScoped<IRepositorioProduto, RepositorioProdutoEmSql>();
             builder.Services.AddScoped<IRepositorioGarcom, RepositorioGarcomEmSql>();
-            builder.Services.AddScoped<IRepositorioConta, RepositorioContaEmArquivo>();
+            builder.Services.AddScoped<IRepositorioConta, RepositorioContaEmSql>();
 
             builder.Services.AddSerilogConfig(builder.Logging);
 
